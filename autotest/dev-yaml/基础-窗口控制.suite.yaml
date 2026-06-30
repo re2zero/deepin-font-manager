@@ -1,0 +1,85 @@
+name: "基础-窗口控制"
+description: |
+  验证窗口关闭控制按钮。
+
+  前置条件: 应用已启动
+  测试步骤:
+  1. 启动应用
+  2. 验证标题栏按钮显示
+  3. 点击关闭按钮
+  预期结果:
+  1. 窗口正确响应关闭操作
+
+module: "基础"
+feature: "窗口控制"
+tags: [窗口, 控制, smoke]
+app: "deepin-font-manager"
+screenshot: true
+
+env_check:
+  - type: process
+    name: "deepin-font-manager"
+    expect: "running"
+    spec_ids: null
+
+setup:
+  - action: session_start
+    command: "deepin-font-manager"
+    wait: 5.0
+
+specs:
+  - id: "标题栏按钮"
+    name: "标题栏按钮"
+    description: "验证标题栏菜单按钮和关闭按钮显示"
+    tags: [标题栏, smoke]
+    spec_ids: null
+    steps:
+      - name: "等待主窗口加载"
+        action: wait
+        wait: 3.0
+
+      - name: "验证菜单按钮显示"
+        action: element_action
+        selector:
+          name: "DTitlebarDWindowOptionButton"
+          role: "button"
+        do: screenshot
+        wait: 1.0
+        assert:
+          - type: element_visible
+            selector:
+              name: "DTitlebarDWindowOptionButton"
+              role: "button"
+
+      - name: "验证关闭按钮显示"
+        action: element_action
+        selector:
+          name: "DTitlebarDWindowCloseButton"
+          role: "button"
+        do: screenshot
+        wait: 1.0
+        assert:
+          - type: element_visible
+            selector:
+              name: "DTitlebarDWindowCloseButton"
+              role: "button"
+
+  - id: "关闭窗口"
+    name: "关闭窗口"
+    description: "验证点击关闭按钮关闭窗口"
+    tags: [关闭, smoke]
+    spec_ids: null
+    steps:
+      - name: "点击关闭按钮"
+        action: element_action
+        selector:
+          name: "DTitlebarDWindowCloseButton"
+          role: "button"
+        do: click
+        wait: 2.0
+        assert:
+          - type: process_not_running
+            app: "deepin-font-manager"
+
+teardown:
+  - action: session_stop

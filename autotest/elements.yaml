@@ -1,0 +1,149 @@
+elements:
+  main_frame:
+    name: 主窗口框架
+    type: window
+    role: window
+  font_list:
+    name: 字体列表
+    type: table
+    role: table
+  font_preview:
+    name: 字体预览区域
+    type: canvas
+    role: canvas
+  search_bar:
+    name: 搜索框
+    type: input
+    role: entry
+  preview_text_input:
+    name: 预览文本输入框
+    type: input
+    role: entry
+  size_increase:
+    name: 字号增加按钮
+    type: button
+    role: button
+  size_decrease:
+    name: 字号减少按钮
+    type: button
+    role: button
+  size_reset:
+    name: 字号重置按钮
+    type: button
+    role: button
+  font_info_dialog:
+    name: 字体信息对话框
+    type: window
+    role: dialog
+  delete_confirm_dialog:
+    name: 删除确认对话框
+    type: window
+    role: dialog
+  install_error_dialog:
+    name: 安装错误对话框
+    type: window
+    role: dialog
+  about_dialog:
+    name: 关于对话框
+    type: window
+    role: dialog
+  status_bar:
+    name: 状态栏
+    type: other
+    role: panel
+  menu_button:
+    name: 菜单按钮
+    type: button
+    role: button
+  minimize_button:
+    name: 最小化按钮
+    type: button
+    role: button
+  maximize_button:
+    name: 最大化按钮
+    type: button
+    role: button
+  close_button:
+    name: 关闭按钮
+    type: button
+    role: button
+  all_fonts_tab:
+    name: 所有字体标签
+    type: tab
+    role: tab
+  system_fonts_tab:
+    name: 系统字体标签
+    type: tab
+    role: tab
+  user_fonts_tab:
+    name: 用户字体标签
+    type: tab
+    role: tab
+  collect_tab:
+    name: 收藏标签
+    type: tab
+    role: tab
+  all_fonts_menu:
+    name: 所有字体菜单
+    type: menuitem
+    role: menuitem
+  system_fonts_menu:
+    name: 系统字体菜单
+    type: menuitem
+    role: menuitem
+  user_fonts_menu:
+    name: 用户字体菜单
+    type: menuitem
+    role: menuitem
+  collect_fonts_menu:
+    name: 收藏菜单
+    type: menuitem
+    role: menuitem
+  activate_menu:
+    name: 激活菜单
+    type: menuitem
+    role: menuitem
+  chinese_font_menu:
+    name: 中文字体菜单
+    type: menuitem
+    role: menuitem
+  mono_font_menu:
+    name: 等宽字体菜单
+    type: menuitem
+    role: menuitem
+  context_menu:
+    name: 右键菜单
+    type: menu
+    role: menu
+  ok_button:
+    name: 确定按钮
+    type: button
+    role: button
+  cancel_button:
+    name: 取消按钮
+    type: button
+    role: button
+  close_dialog_button:
+    name: 关闭对话框按钮
+    type: button
+    role: button
+  continue_button:
+    name: 继续安装按钮
+    type: button
+    role: button
+  export_button:
+    name: 导出按钮
+    type: button
+    role: button
+  favorite_button:
+    name: 收藏按钮
+    type: button
+    role: button
+  font_size_slider:
+    name: 字体大小滑块
+    type: slider
+    role: scrollbar
+  loading_animation:
+    name: 加载动画
+    type: other
+    role: canvas

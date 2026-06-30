@@ -1,0 +1,134 @@
+name: "字体管理-网络字体"
+description: |
+  验证网络字体搜索、预览、安装功能。
+
+  前置条件: 系统已安装字体、网络可用
+  测试步骤:
+  1. 启动应用
+  2. 切换到网络字体
+  3. 搜索网络字体
+  4. 预览和安装
+  预期结果:
+  1. 网络字体列表正常显示
+
+module: "网络字体"
+feature: "搜索"
+tags: [网络字体, 搜索]
+app: "deepin-font-manager"
+
+env_check:
+  - type: process
+    name: "deepin-font-manager"
+    expect: "not_running"
+  - type: network
+    name: "network"
+    expect: "available"
+
+setup:
+  - action: session_start
+    command: "deepin-font-manager"
+    wait: 5.0
+
+specs:
+  - id: "switch_to_net"
+    name: "切换到网络字体"
+    description: "验证切换到网络字体分类"
+    tags: [切换]
+    steps:
+      - name: "等待主窗口加载"
+        action: wait
+        wait: 3.0
+      - name: "点击网络字体分类"
+        action: element_action
+        selector:
+          name: "网络字体"
+          role: "tree item"
+        do: click
+        wait: 3.0
+      - name: "验证网络字体列表显示"
+        action: element_action
+        selector:
+          role: "list"
+        do: screenshot
+        wait: 1.0
+
+  - id: "search_net_font"
+    name: "搜索网络字体"
+    description: "验证网络字体搜索功能"
+    tags: [搜索]
+    steps:
+      - name: "点击搜索框"
+        action: element_action
+        selector:
+          name: "DLineEditChildLineEdit"
+          role: "text"
+        do: click
+        wait: 1.0
+      - name: "输入搜索关键字"
+        action: element_action
+        selector:
+          name: "DLineEditChildLineEdit"
+          role: "text"
+        do: send_keys
+        text: "Arial"
+        wait: 3.0
+      - name: "验证搜索结果"
+        action: element_action
+        selector:
+          role: "list"
+        do: screenshot
+        wait: 1.0
+      - name: "清空搜索"
+        action: element_action
+        selector:
+          name: "DLineEditClearButton"
+          role: "button"
+        do: click
+        wait: 2.0
+
+  - id: "preview_net_font"
+    name: "预览网络字体"
+    description: "验证网络字体预览功能"
+    tags: [预览]
+    steps:
+      - name: "选择网络字体"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "验证预览显示"
+        action: element_action
+        selector:
+          role: "label"
+        do: screenshot
+        wait: 1.0
+
+  - id: "install_net_font"
+    name: "安装网络字体"
+    description: "验证网络字体安装功能"
+    tags: [安装]
+    skip: "网络字体安装依赖网络环境，标记 skip"
+    steps:
+      - name: "选择网络字体"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "点击安装按钮"
+        action: element_action
+        selector:
+          name: "安装"
+          role: "push button"
+        do: click
+        wait: 5.0
+      - name: "验证安装结果"
+        action: element_action
+        selector:
+          role: "label"
+        do: screenshot
+        wait: 1.0
+
+teardown:
+  - action: session_stop

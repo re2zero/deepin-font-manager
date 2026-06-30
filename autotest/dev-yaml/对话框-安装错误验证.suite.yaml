@@ -1,0 +1,81 @@
+name: "对话框-安装错误验证"
+description: |
+  验证字体安装失败时的错误对话框。
+  所有 spec 依赖特定错误状态触发条件，标记 skip。
+
+module: "对话框"
+feature: "安装错误"
+tags: [对话框, 安装错误]
+app: "deepin-font-manager"
+
+env_check:
+  - type: process
+    name: "deepin-font-manager"
+    expect: "not_running"
+
+setup:
+  - action: session_start
+    command: "deepin-font-manager"
+    wait: 5.0
+
+specs:
+  - id: "error_list"
+    name: "安装错误列表"
+    description: "验证安装错误对话框显示错误列表"
+    tags: [安装错误, 错误列表]
+    skip: "依赖安装错误状态触发，需准备损坏字体文件，标记 skip"
+    steps:
+      - name: "验证错误对话框显示"
+        action: element_action
+        selector:
+          role: "dialog"
+        do: screenshot
+        wait: 1.0
+        assert:
+          - type: element_visible
+            selector:
+              role: "dialog"
+
+  - id: "continue_install"
+    name: "继续安装"
+    description: "验证错误对话框中点击继续安装"
+    tags: [安装错误, 继续]
+    skip: "依赖安装错误状态触发，需准备损坏字体文件，标记 skip"
+    steps:
+      - name: "点击继续安装按钮"
+        action: element_action
+        selector:
+          name: "继续安装"
+          role: "push button"
+        do: click
+        wait: 2.0
+      - name: "验证安装继续"
+        action: element_action
+        selector:
+          role: "label"
+        do: screenshot
+        wait: 1.0
+
+  - id: "cancel_install"
+    name: "取消安装"
+    description: "验证错误对话框中点击取消安装"
+    tags: [安装错误, 取消]
+    skip: "依赖安装错误状态触发，需准备损坏字体文件，标记 skip"
+    steps:
+      - name: "点击取消安装按钮"
+        action: element_action
+        selector:
+          name: "取消安装"
+          role: "push button"
+        do: click
+        wait: 2.0
+      - name: "验证对话框关闭"
+        action: wait
+        wait: 1.0
+        assert:
+          - type: element_not_visible
+            selector:
+              role: "dialog"
+
+teardown:
+  - action: session_stop

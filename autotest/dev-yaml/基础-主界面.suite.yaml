@@ -1,0 +1,77 @@
+name: "基础-主界面"
+description: |
+  验证主窗口启动和界面元素。
+
+  前置条件: 系统已安装字体
+  测试步骤:
+  1. 启动字体管理器应用
+  2. 验证主窗口界面元素显示
+  预期结果:
+  1. 应用正常启动
+  2. 主界面元素完整显示
+
+module: "基础"
+feature: "启动"
+tags: [启动, 主界面, smoke]
+app: "deepin-font-manager"
+screenshot: true
+
+env_check:
+  - type: process
+    name: "deepin-font-manager"
+    expect: "not_running"
+    spec_ids: null
+
+setup:
+  - action: session_start
+    command: "deepin-font-manager"
+    wait: 5.0
+
+specs:
+  - id: "主界面"
+    name: "主界面"
+    description: "验证主窗口启动和界面元素"
+    tags: [启动, smoke]
+    spec_ids: null
+    steps:
+      - name: "等待主窗口加载"
+        action: wait
+        wait: 3.0
+
+      - name: "验证主窗口显示"
+        action: element_action
+        selector:
+          role: "frame"
+        do: screenshot
+        wait: 1.0
+        assert:
+          - type: element_visible
+            selector:
+              role: "frame"
+
+      - name: "验证字体列表显示"
+        action: element_action
+        selector:
+          role: "list"
+        do: screenshot
+        wait: 1.0
+        assert:
+          - type: element_visible
+            selector:
+              role: "list"
+
+      - name: "验证左栏菜单显示"
+        action: element_action
+        selector:
+          name: "left_side_bar"
+          role: "panel"
+        do: screenshot
+        wait: 1.0
+        assert:
+          - type: element_visible
+            selector:
+              name: "side_bar_view"
+              role: "tree"
+
+teardown:
+  - action: session_stop

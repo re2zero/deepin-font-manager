@@ -1,0 +1,107 @@
+name: "帮助-关于"
+description: |
+  验证帮助菜单和关于对话框。
+
+module: "帮助"
+feature: "关于"
+tags: [帮助, 关于]
+app: "deepin-font-manager"
+
+env_check:
+  - type: process
+    name: "deepin-font-manager"
+    expect: "not_running"
+
+setup:
+  - action: session_start
+    command: "deepin-font-manager"
+    wait: 5.0
+
+specs:
+  - id: "open_about"
+    name: "打开关于对话框"
+    description: "通过标题栏菜单打开关于对话框"
+    tags: [关于, smoke]
+    steps:
+      - name: "等待主窗口加载"
+        action: wait
+        wait: 3.0
+      - name: "点击标题栏菜单按钮"
+        action: element_action
+        selector:
+          name: "DTitlebarDWindowOptionButton"
+          role: "button"
+        do: click
+        wait: 1.0
+      - name: "点击关于菜单项"
+        action: element_action
+        selector:
+          name: "关于"
+          role: "menu item"
+        do: click
+        wait: 2.0
+      - name: "验证关于对话框显示"
+        action: element_action
+        selector:
+          role: "dialog"
+        do: screenshot
+        wait: 1.0
+        assert:
+          - type: element_visible
+            selector:
+              role: "dialog"
+
+  - id: "about_version"
+    name: "版本信息"
+    description: "验证关于对话框中版本信息显示"
+    tags: [关于, 版本]
+    steps:
+      - name: "点击标题栏菜单按钮"
+        action: element_action
+        selector:
+          name: "DTitlebarDWindowOptionButton"
+          role: "button"
+        do: click
+        wait: 1.0
+      - name: "点击关于菜单项"
+        action: element_action
+        selector:
+          name: "关于"
+          role: "menu item"
+        do: click
+        wait: 2.0
+      - name: "验证版本信息显示"
+        action: element_action
+        selector:
+          role: "label"
+        do: screenshot
+        wait: 1.0
+
+  - id: "about_license"
+    name: "许可证信息"
+    description: "验证关于对话框中许可证信息显示"
+    tags: [关于, 许可证]
+    steps:
+      - name: "点击标题栏菜单按钮"
+        action: element_action
+        selector:
+          name: "DTitlebarDWindowOptionButton"
+          role: "button"
+        do: click
+        wait: 1.0
+      - name: "点击关于菜单项"
+        action: element_action
+        selector:
+          name: "关于"
+          role: "menu item"
+        do: click
+        wait: 2.0
+      - name: "验证许可证信息显示"
+        action: element_action
+        selector:
+          role: "label"
+        do: screenshot
+        wait: 1.0
+
+teardown:
+  - action: session_stop

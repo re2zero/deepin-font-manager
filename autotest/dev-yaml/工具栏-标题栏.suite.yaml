@@ -1,0 +1,111 @@
+name: "工具栏-标题栏"
+description: |
+  验证标题栏工具栏功能，包括菜单、关闭按钮。
+
+module: "标题栏"
+feature: "工具栏"
+tags: [标题栏, 工具栏]
+app: "deepin-font-manager"
+
+env_check:
+  - type: process
+    name: "deepin-font-manager"
+    expect: "not_running"
+
+setup:
+  - action: session_start
+    command: "deepin-font-manager"
+    wait: 5.0
+
+specs:
+  - id: "titlebar_menu"
+    name: "标题栏菜单"
+    description: "验证点击标题栏菜单按钮弹出主菜单"
+    tags: [标题栏, 菜单, smoke]
+    steps:
+      - name: "等待主窗口加载"
+        action: wait
+        wait: 3.0
+      - name: "点击标题栏菜单按钮"
+        action: element_action
+        selector:
+          name: "DTitlebarDWindowOptionButton"
+          role: "button"
+        do: click
+        wait: 1.0
+      - name: "验证主菜单弹出"
+        action: element_action
+        selector:
+          name: "DTitlebarMainMenu"
+          role: "popup menu"
+        do: screenshot
+        wait: 1.0
+        assert:
+          - type: element_visible
+            selector:
+              name: "DTitlebarMainMenu"
+              role: "popup menu"
+
+  - id: "titlebar_minimize"
+    name: "标题栏最小化"
+    description: "验证标题栏最小化按钮"
+    tags: [标题栏, 最小化]
+    skip: "AT-SPI 检测未发现独立最小化按钮，标记 skip"
+    steps:
+      - name: "点击最小化按钮"
+        action: element_action
+        selector:
+          name: "最小化"
+          role: "push button"
+        do: click
+        wait: 2.0
+      - name: "验证窗口最小化"
+        action: element_action
+        selector:
+          name: "DMainWindow"
+          role: "frame"
+        do: screenshot
+        wait: 1.0
+
+  - id: "titlebar_maximize"
+    name: "标题栏最大化"
+    description: "验证标题栏最大化按钮"
+    tags: [标题栏, 最大化]
+    skip: "AT-SPI 检测未发现独立最大化按钮，标记 skip"
+    steps:
+      - name: "点击最大化按钮"
+        action: element_action
+        selector:
+          name: "最大化"
+          role: "push button"
+        do: click
+        wait: 2.0
+      - name: "验证窗口最大化"
+        action: element_action
+        selector:
+          name: "DMainWindow"
+          role: "frame"
+        do: screenshot
+        wait: 1.0
+
+  - id: "titlebar_close"
+    name: "标题栏关闭"
+    description: "验证点击标题栏关闭按钮退出应用"
+    tags: [标题栏, 关闭]
+    steps:
+      - name: "点击关闭按钮"
+        action: element_action
+        selector:
+          name: "DTitlebarDWindowCloseButton"
+          role: "button"
+        do: click
+        wait: 2.0
+      - name: "验证应用已退出"
+        action: wait
+        wait: 2.0
+        assert:
+          - type: process_not_running
+            app: "deepin-font-manager"
+
+teardown:
+  - action: session_stop

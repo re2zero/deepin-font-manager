@@ -1,0 +1,120 @@
+name: "对话框-删除确认"
+description: |
+  验证删除字体确认对话框的显示和操作。
+
+module: "对话框"
+feature: "删除确认"
+tags: [对话框, 删除]
+app: "deepin-font-manager"
+
+env_check:
+  - type: process
+    name: "deepin-font-manager"
+    expect: "not_running"
+
+setup:
+  - action: session_start
+    command: "deepin-font-manager"
+    wait: 5.0
+
+specs:
+  - id: "delete_confirm_dialog"
+    name: "删除确认对话框显示"
+    description: "验证点击删除后弹出确认对话框"
+    tags: [对话框, smoke]
+    steps:
+      - name: "等待主窗口加载"
+        action: wait
+        wait: 3.0
+      - name: "选择字体"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "点击删除按钮"
+        action: element_action
+        selector:
+          name: "删除"
+          role: "push button"
+        do: click
+        wait: 2.0
+      - name: "验证确认对话框显示"
+        action: element_action
+        selector:
+          role: "dialog"
+        do: screenshot
+        wait: 1.0
+        assert:
+          - type: element_visible
+            selector:
+              role: "dialog"
+
+  - id: "delete_cancel"
+    name: "取消删除"
+    description: "验证在确认对话框中取消删除"
+    tags: [对话框, 取消]
+    steps:
+      - name: "选择字体"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "点击删除按钮"
+        action: element_action
+        selector:
+          name: "删除"
+          role: "push button"
+        do: click
+        wait: 2.0
+      - name: "点击取消按钮"
+        action: element_action
+        selector:
+          name: "取消"
+          role: "push button"
+        do: click
+        wait: 2.0
+      - name: "验证对话框关闭"
+        action: wait
+        wait: 1.0
+        assert:
+          - type: element_not_visible
+            selector:
+              role: "dialog"
+
+  - id: "delete_confirm"
+    name: "确认删除"
+    description: "验证在确认对话框中确认删除"
+    tags: [对话框, 确认]
+    skip: "确认删除会永久移除字体，标记 skip 避免破坏环境"
+    steps:
+      - name: "选择字体"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "点击删除按钮"
+        action: element_action
+        selector:
+          name: "删除"
+          role: "push button"
+        do: click
+        wait: 2.0
+      - name: "点击确认按钮"
+        action: element_action
+        selector:
+          name: "确认"
+          role: "push button"
+        do: click
+        wait: 3.0
+      - name: "验证字体已删除"
+        action: element_action
+        selector:
+          role: "list"
+        do: screenshot
+        wait: 1.0
+
+teardown:
+  - action: session_stop

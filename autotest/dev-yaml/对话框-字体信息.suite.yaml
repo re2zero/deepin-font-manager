@@ -1,0 +1,83 @@
+name: "对话框-字体信息"
+description: |
+  验证字体信息对话框。
+
+module: "对话框"
+feature: "字体信息"
+tags: [对话框, 字体信息]
+app: "deepin-font-manager"
+
+env_check:
+  - type: process
+    name: "deepin-font-manager"
+    expect: "not_running"
+
+setup:
+  - action: session_start
+    command: "deepin-font-manager"
+    wait: 5.0
+
+specs:
+  - id: "font_info_dialog"
+    name: "字体信息对话框"
+    description: "验证选择字体后打开字体信息对话框"
+    tags: [字体信息, smoke]
+    steps:
+      - name: "等待主窗口加载"
+        action: wait
+        wait: 3.0
+      - name: "选择字体列表第一项"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "点击字体信息按钮"
+        action: element_action
+        selector:
+          name: "字体信息"
+          role: "push button"
+        do: click
+        wait: 2.0
+      - name: "验证字体信息对话框显示"
+        action: element_action
+        selector:
+          role: "dialog"
+        do: screenshot
+        wait: 1.0
+        assert:
+          - type: element_visible
+            selector:
+              role: "dialog"
+
+  - id: "font_info_scroll"
+    name: "字体信息滚动区域"
+    description: "验证字体信息对话框滚动区域内容显示"
+    tags: [字体信息, 滚动]
+    steps:
+      - name: "选择字体列表第一项"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "点击字体信息按钮"
+        action: element_action
+        selector:
+          name: "字体信息"
+          role: "push button"
+        do: click
+        wait: 2.0
+      - name: "验证对话框内容显示"
+        action: element_action
+        selector:
+          role: "dialog"
+        do: screenshot
+        wait: 1.0
+        assert:
+          - type: element_visible
+            selector:
+              role: "dialog"
+
+teardown:
+  - action: session_stop

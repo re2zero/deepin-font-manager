@@ -1,0 +1,140 @@
+name: "字体搜索"
+description: |
+  验证字体搜索功能，包括搜索输入、清空、无结果提示。
+
+module: "搜索"
+feature: "搜索"
+tags: [搜索]
+app: "deepin-font-manager"
+
+env_check:
+  - type: process
+    name: "deepin-font-manager"
+    expect: "not_running"
+
+setup:
+  - action: session_start
+    command: "deepin-font-manager"
+    wait: 5.0
+
+specs:
+  - id: "search_font"
+    name: "搜索字体"
+    description: "验证输入关键字搜索字体"
+    tags: [搜索, smoke]
+    steps:
+      - name: "等待主窗口加载"
+        action: wait
+        wait: 3.0
+      - name: "点击搜索框"
+        action: element_action
+        selector:
+          name: "DLineEditChildLineEdit"
+          role: "text"
+        do: click
+        wait: 1.0
+      - name: "输入搜索关键字"
+        action: element_action
+        selector:
+          name: "DLineEditChildLineEdit"
+          role: "text"
+        do: send_keys
+        text: "Sans"
+        wait: 2.0
+      - name: "验证搜索结果列表"
+        action: element_action
+        selector:
+          role: "list"
+        do: screenshot
+        wait: 1.0
+
+  - id: "clear_search"
+    name: "清空搜索"
+    description: "验证清空搜索按钮功能"
+    tags: [搜索, 清空]
+    steps:
+      - name: "点击搜索框"
+        action: element_action
+        selector:
+          name: "DLineEditChildLineEdit"
+          role: "text"
+        do: click
+        wait: 1.0
+      - name: "输入搜索关键字"
+        action: element_action
+        selector:
+          name: "DLineEditChildLineEdit"
+          role: "text"
+        do: send_keys
+        text: "Sans"
+        wait: 2.0
+      - name: "点击清空按钮"
+        action: element_action
+        selector:
+          name: "DLineEditClearButton"
+          role: "button"
+        do: click
+        wait: 2.0
+      - name: "验证搜索框已清空"
+        action: element_action
+        selector:
+          name: "DLineEditChildLineEdit"
+          role: "text"
+        do: screenshot
+        wait: 1.0
+
+  - id: "no_result"
+    name: "无搜索结果"
+    description: "验证搜索无结果时显示提示"
+    tags: [搜索, 无结果]
+    steps:
+      - name: "点击搜索框"
+        action: element_action
+        selector:
+          name: "DLineEditChildLineEdit"
+          role: "text"
+        do: click
+        wait: 1.0
+      - name: "输入不存在的字体名"
+        action: element_action
+        selector:
+          name: "DLineEditChildLineEdit"
+          role: "text"
+        do: send_keys
+        text: "zzzznotexist"
+        wait: 2.0
+      - name: "验证无结果提示"
+        action: element_action
+        selector:
+          name: "无搜索结果"
+          role: "label"
+        do: screenshot
+        wait: 1.0
+        assert:
+          - type: element_visible
+            selector:
+              name: "无搜索结果"
+              role: "label"
+
+  - id: "search_icon_click"
+    name: "搜索图标点击"
+    description: "验证点击搜索图标聚焦搜索框"
+    tags: [搜索, 图标]
+    steps:
+      - name: "点击搜索图标"
+        action: element_action
+        selector:
+          name: "DSearchEditIconButton"
+          role: "button"
+        do: click
+        wait: 1.0
+      - name: "验证搜索框聚焦"
+        action: element_action
+        selector:
+          name: "DLineEditChildLineEdit"
+          role: "text"
+        do: screenshot
+        wait: 1.0
+
+teardown:
+  - action: session_stop

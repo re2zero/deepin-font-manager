@@ -1,0 +1,206 @@
+name: "字体管理-本地字体操作"
+description: |
+  验证本地字体的安装、删除、启用/禁用、收藏、导出等操作。
+module: "本地字体"
+feature: "操作"
+tags: [本地字体, 操作]
+app: "deepin-font-manager"
+
+env_check:
+  - type: process
+    name: "deepin-font-manager"
+    expect: "not_running"
+
+setup:
+  - action: session_start
+    command: "deepin-font-manager"
+    wait: 5.0
+
+specs:
+  - id: "install_font"
+    name: "安装字体"
+    description: "验证字体安装功能"
+    tags: [安装]
+    steps:
+      - name: "等待主窗口加载"
+        action: wait
+        wait: 3.0
+      - name: "选择待安装字体"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "点击安装按钮"
+        action: element_action
+        selector:
+          name: "安装"
+          role: "push button"
+        do: click
+        wait: 3.0
+      - name: "验证安装完成"
+        action: element_action
+        selector:
+          role: "label"
+        do: screenshot
+        wait: 1.0
+
+  - id: "delete_font"
+    name: "删除字体"
+    description: "验证字体删除功能"
+    tags: [删除]
+    steps:
+      - name: "选择字体"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "点击删除按钮"
+        action: element_action
+        selector:
+          name: "删除"
+          role: "push button"
+        do: click
+        wait: 2.0
+      - name: "验证删除确认对话框"
+        action: element_action
+        selector:
+          role: "dialog"
+        do: screenshot
+        wait: 1.0
+
+  - id: "enable_disable_font"
+    name: "启用禁用字体"
+    description: "验证字体启用禁用功能"
+    tags: [启用, 禁用]
+    steps:
+      - name: "选择字体"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "点击启用按钮"
+        action: element_action
+        selector:
+          name: "启用"
+          role: "push button"
+        do: click
+        wait: 3.0
+      - name: "验证已启用"
+        action: element_action
+        selector:
+          role: "label"
+        do: screenshot
+        wait: 1.0
+      - name: "点击禁用按钮"
+        action: element_action
+        selector:
+          name: "禁用"
+          role: "push button"
+        do: click
+        wait: 3.0
+      - name: "验证已禁用"
+        action: element_action
+        selector:
+          role: "label"
+        do: screenshot
+        wait: 1.0
+
+  - id: "favorite_font"
+    name: "收藏取消收藏"
+    description: "验证字体收藏取消收藏功能"
+    tags: [收藏]
+    steps:
+      - name: "选择字体"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "点击收藏按钮"
+        action: element_action
+        selector:
+          name: "收藏"
+          role: "push button"
+        do: click
+        wait: 2.0
+      - name: "验证已收藏"
+        action: element_action
+        selector:
+          name: "取消收藏"
+          role: "push button"
+        do: screenshot
+        wait: 1.0
+
+  - id: "export_font"
+    name: "导出字体"
+    description: "验证字体导出功能"
+    tags: [导出]
+    steps:
+      - name: "选择字体"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "点击导出按钮"
+        action: element_action
+        selector:
+          name: "导出"
+          role: "push button"
+        do: click
+        wait: 3.0
+      - name: "验证导出对话框"
+        action: element_action
+        selector:
+          role: "dialog"
+        do: screenshot
+        wait: 1.0
+
+  - id: "copy_path"
+    name: "复制路径"
+    description: "验证字体路径复制功能"
+    tags: [复制路径]
+    steps:
+      - name: "选择字体"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "点击复制路径按钮"
+        action: element_action
+        selector:
+          name: "复制路径"
+          role: "push button"
+        do: click
+        wait: 2.0
+      - name: "验证复制成功"
+        action: element_action
+        selector:
+          role: "label"
+        do: screenshot
+        wait: 1.0
+
+  - id: "context_menu"
+    name: "右键菜单"
+    description: "验证字体卡片右键菜单"
+    tags: [右键菜单]
+    steps:
+      - name: "字体卡片右键"
+        action: element_action
+        selector:
+          role: "list item"
+        do: right_click
+        wait: 2.0
+      - name: "验证右键菜单显示"
+        action: element_action
+        selector:
+          role: "popup menu"
+        do: screenshot
+        wait: 1.0
+
+teardown:
+  - action: session_stop

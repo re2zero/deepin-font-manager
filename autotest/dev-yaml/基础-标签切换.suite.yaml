@@ -1,0 +1,56 @@
+name: "基础-标签切换"
+description: |
+  验证左栏菜单分类切换功能。
+
+  前置条件: 应用已启动
+  测试步骤:
+  1. 启动应用
+  2. 点击左栏各分类树项
+  3. 验证字体列表内容切换
+  预期结果:
+  1. 分类切换正常
+  2. 各分类字体列表正确显示
+
+module: "基础"
+feature: "标签切换"
+tags: [标签, 切换, smoke]
+app: "deepin-font-manager"
+screenshot: true
+
+env_check:
+  - type: process
+    name: "deepin-font-manager"
+    expect: "running"
+    spec_ids: null
+
+setup:
+  - action: session_start
+    command: "deepin-font-manager"
+    wait: 5.0
+
+specs:
+  - id: "标签切换"
+    name: "标签切换"
+    description: "验证左栏分类切换功能"
+    tags: [标签, smoke]
+    spec_ids: null
+    steps:
+      - name: "等待主窗口加载"
+        action: wait
+        wait: 3.0
+
+      - name: "验证左栏树结构显示"
+        action: element_action
+        selector:
+          name: "side_bar_view"
+          role: "tree"
+        do: screenshot
+        wait: 1.0
+        assert:
+          - type: element_visible
+            selector:
+              name: "side_bar_view"
+              role: "tree"
+
+teardown:
+  - action: session_stop

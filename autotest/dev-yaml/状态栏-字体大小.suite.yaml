@@ -1,0 +1,68 @@
+name: "状态栏-字体大小"
+description: |
+  验证状态栏字体大小显示和滑块交互。
+
+module: "状态栏"
+feature: "字体大小"
+tags: [状态栏, 字体大小]
+app: "deepin-font-manager"
+
+env_check:
+  - type: process
+    name: "deepin-font-manager"
+    expect: "not_running"
+
+setup:
+  - action: session_start
+    command: "deepin-font-manager"
+    wait: 5.0
+
+specs:
+  - id: "font_size_display"
+    name: "字号显示"
+    description: "验证状态栏字号标签显示像素值"
+    tags: [字号, smoke]
+    steps:
+      - name: "等待主窗口加载"
+        action: wait
+        wait: 3.0
+      - name: "验证字号标签显示像素值"
+        action: element_action
+        selector:
+          role: "label"
+        do: screenshot
+        wait: 1.0
+        assert:
+          - type: element_visible
+            selector:
+              role: "label"
+
+  - id: "font_size_slider"
+    name: "字号滑块交互"
+    description: "验证拖动状态栏字号滑块改变字号"
+    tags: [字号, 滑块]
+    steps:
+      - name: "点击字号滑块"
+        action: element_action
+        selector:
+          name: "DSliderSpecialSlider"
+          role: "slider"
+        do: click
+        wait: 2.0
+      - name: "增加字号"
+        action: element_action
+        selector:
+          name: "DSliderSpecialSlider"
+          role: "slider"
+        do: increase
+        wait: 1.0
+      - name: "验证字号变化"
+        action: element_action
+        selector:
+          name: "DSliderSpecialSlider"
+          role: "slider"
+        do: screenshot
+        wait: 1.0
+
+teardown:
+  - action: session_stop

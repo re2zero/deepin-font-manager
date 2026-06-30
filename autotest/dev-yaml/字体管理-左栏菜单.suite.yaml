@@ -1,0 +1,179 @@
+name: "字体管理-左栏菜单"
+description: |
+  验证左侧菜单分类显示。
+
+  前置条件: 系统已安装字体
+  测试步骤:
+  1. 启动应用
+  2. 依次点击所有分类树项
+  3. 验证各分类字体列表显示
+  预期结果:
+  1. 各分类字体列表正确显示
+
+module: "左栏菜单"
+feature: "分类"
+tags: [分类, 左栏, smoke]
+app: "deepin-font-manager"
+screenshot: true
+
+env_check:
+  - type: process
+    name: "deepin-font-manager"
+    expect: "not_running"
+    spec_ids: null
+
+setup:
+  - action: session_start
+    command: "deepin-font-manager"
+    wait: 5.0
+
+specs:
+  - id: "全部字体"
+    name: "全部字体"
+    description: "验证全部字体分类"
+    tags: [全部, smoke]
+    spec_ids: null
+    steps:
+      - name: "等待主窗口加载"
+        action: wait
+        wait: 3.0
+      - name: "点击全部分类"
+        action: element_action
+        selector:
+          name: "全部"
+          role: "tree item"
+        do: click
+        wait: 2.0
+      - name: "验证字体列表显示"
+        action: element_action
+        selector:
+          role: "list"
+        do: screenshot
+        wait: 1.0
+        assert:
+          - type: element_visible
+            selector:
+              role: "list"
+
+  - id: "系统字体"
+    name: "系统字体"
+    description: "验证系统字体分类"
+    tags: [系统]
+    spec_ids: null
+    steps:
+      - name: "点击系统字体分类"
+        action: element_action
+        selector:
+          name: "系统字体"
+          role: "tree item"
+        do: click
+        wait: 2.0
+      - name: "验证字体列表显示"
+        action: element_action
+        selector:
+          role: "list"
+        do: screenshot
+        wait: 1.0
+
+  - id: "用户字体"
+    name: "用户字体"
+    description: "验证用户字体分类"
+    tags: [用户]
+    spec_ids: null
+    steps:
+      - name: "点击用户字体分类"
+        action: element_action
+        selector:
+          name: "用户字体"
+          role: "tree item"
+        do: click
+        wait: 2.0
+      - name: "验证字体列表显示"
+        action: element_action
+        selector:
+          role: "list"
+        do: screenshot
+        wait: 1.0
+
+  - id: "收藏"
+    name: "收藏"
+    description: "验证收藏分类"
+    tags: [收藏]
+    spec_ids: null
+    steps:
+      - name: "点击收藏分类"
+        action: element_action
+        selector:
+          name: "收藏"
+          role: "tree item"
+        do: click
+        wait: 2.0
+      - name: "验证字体列表显示"
+        action: element_action
+        selector:
+          role: "list"
+        do: screenshot
+        wait: 1.0
+
+  - id: "已激活"
+    name: "已激活"
+    description: "验证已激活分类"
+    tags: [已激活]
+    spec_ids: null
+    steps:
+      - name: "点击已激活分类"
+        action: element_action
+        selector:
+          name: "已激活"
+          role: "tree item"
+        do: click
+        wait: 2.0
+      - name: "验证字体列表显示"
+        action: element_action
+        selector:
+          role: "list"
+        do: screenshot
+        wait: 1.0
+
+  - id: "中文"
+    name: "中文"
+    description: "验证中文字体分类"
+    tags: [中文]
+    spec_ids: null
+    steps:
+      - name: "点击中文分类"
+        action: element_action
+        selector:
+          name: "中文"
+          role: "tree item"
+        do: click
+        wait: 2.0
+      - name: "验证字体列表显示"
+        action: element_action
+        selector:
+          role: "list"
+        do: screenshot
+        wait: 1.0
+
+  - id: "等宽"
+    name: "等宽"
+    description: "验证等宽字体分类"
+    tags: [等宽]
+    spec_ids: null
+    steps:
+      - name: "点击等宽分类"
+        action: element_action
+        selector:
+          name: "等宽"
+          role: "tree item"
+        do: click
+        wait: 2.0
+      - name: "验证字体列表显示"
+        action: element_action
+        selector:
+          role: "list"
+        do: screenshot
+        wait: 1.0
+
+teardown:
+  - action: session_stop

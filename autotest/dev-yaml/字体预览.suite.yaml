@@ -1,0 +1,124 @@
+name: "字体预览"
+description: |
+  验证字体预览功能，包括字号滑块调节、预览文本显示。
+
+module: "预览"
+feature: "预览"
+tags: [预览]
+app: "deepin-font-manager"
+
+env_check:
+  - type: process
+    name: "deepin-font-manager"
+    expect: "not_running"
+
+setup:
+  - action: session_start
+    command: "deepin-font-manager"
+    wait: 5.0
+
+specs:
+  - id: "select_font_preview"
+    name: "选择字体预览"
+    description: "验证选择字体后显示预览"
+    tags: [预览, smoke]
+    steps:
+      - name: "等待主窗口加载"
+        action: wait
+        wait: 3.0
+      - name: "选择字体列表第一项"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "验证预览区域显示"
+        action: element_action
+        selector:
+          role: "label"
+        do: screenshot
+        wait: 1.0
+
+  - id: "font_size_slider"
+    name: "字号滑块调节"
+    description: "验证拖动字号滑块改变预览字号"
+    tags: [预览, 字号]
+    steps:
+      - name: "选择字体"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "获取滑块当前值"
+        action: element_action
+        selector:
+          name: "DSliderSpecialSlider"
+          role: "slider"
+        do: screenshot
+        wait: 1.0
+      - name: "增加字号"
+        action: element_action
+        selector:
+          name: "DSliderSpecialSlider"
+          role: "slider"
+        do: increase
+        wait: 1.0
+      - name: "验证字号变化"
+        action: element_action
+        selector:
+          name: "DSliderSpecialSlider"
+          role: "slider"
+        do: screenshot
+        wait: 1.0
+
+  - id: "font_size_decrease"
+    name: "字号减小"
+    description: "验证减小字号滑块"
+    tags: [预览, 字号]
+    steps:
+      - name: "选择字体"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "减小字号"
+        action: element_action
+        selector:
+          name: "DSliderSpecialSlider"
+          role: "slider"
+        do: decrease
+        wait: 1.0
+      - name: "验证字号变化"
+        action: element_action
+        selector:
+          name: "DSliderSpecialSlider"
+          role: "slider"
+        do: screenshot
+        wait: 1.0
+
+  - id: "font_size_label"
+    name: "字号标签显示"
+    description: "验证字号标签显示像素值"
+    tags: [预览, 字号]
+    steps:
+      - name: "选择字体"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 2.0
+      - name: "验证字号标签显示"
+        action: element_action
+        selector:
+          role: "label"
+        do: screenshot
+        wait: 1.0
+        assert:
+          - type: element_visible
+            selector:
+              role: "label"
+
+teardown:
+  - action: session_stop

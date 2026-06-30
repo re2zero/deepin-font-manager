@@ -1,0 +1,88 @@
+name: "快捷键功能"
+description: |
+  验证应用快捷键功能。
+
+  前置条件: 应用已启动
+  测试步骤:
+  1. 启动应用
+  2. 测试搜索快捷键 Ctrl+F
+  3. 测试退出快捷键 Ctrl+Q
+  预期结果:
+  1. 快捷键响应正常
+
+module: "快捷键"
+feature: "快捷键"
+tags: [快捷键]
+app: "deepin-font-manager"
+
+env_check:
+  - type: process
+    name: "deepin-font-manager"
+    expect: "not_running"
+
+setup:
+  - action: session_start
+    command: "deepin-font-manager"
+    wait: 5.0
+
+specs:
+  - id: "search_shortcut"
+    name: "搜索快捷键Ctrl+F"
+    description: "验证 Ctrl+F 聚焦搜索框"
+    tags: [快捷键, 搜索]
+    steps:
+      - name: "等待主窗口加载"
+        action: wait
+        wait: 3.0
+      - name: "按下 Ctrl+F"
+        action: hotkey
+        keys: ["ctrl", "f"]
+        wait: 1.0
+      - name: "验证搜索框聚焦"
+        action: element_action
+        selector:
+          name: "DLineEditChildLineEdit"
+          role: "text"
+        do: screenshot
+        wait: 1.0
+
+  - id: "quit_shortcut"
+    name: "退出快捷键Ctrl+Q"
+    description: "验证 Ctrl+Q 退出应用"
+    tags: [快捷键, 退出]
+    steps:
+      - name: "按下 Ctrl+Q"
+        action: hotkey
+        keys: ["ctrl", "q"]
+        wait: 2.0
+      - name: "验证应用退出"
+        action: wait
+        wait: 2.0
+        assert:
+          - type: process_not_running
+            app: "deepin-font-manager"
+
+  - id: "font_list_navigation"
+    name: "字体列表上下键导航"
+    description: "验证上下方向键导航字体列表"
+    tags: [快捷键, 导航]
+    steps:
+      - name: "点击字体列表第一项"
+        action: element_action
+        selector:
+          role: "list item"
+        do: click
+        wait: 1.0
+      - name: "按下方向键下"
+        action: hotkey
+        keys: ["down"]
+        wait: 1.0
+      - name: "验证选中项变化"
+        action: element_action
+        selector:
+          role: "list item"
+        do: screenshot
+        wait: 1.0
+
+teardown:
+  - action: session_stop
