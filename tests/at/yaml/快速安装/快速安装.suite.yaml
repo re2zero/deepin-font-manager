@@ -1,0 +1,48 @@
+name: 快速安装_suite
+app: deepin-font-manager
+module: 快速安装
+setup:
+- action: session_start
+  command: deepin-font-manager
+  wait: 3.0
+suites:
+- id: suite_快速安装_001_s1
+  name: 展开字体类型_下拉框操作
+  description: ''
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      accessible_id: FontType
+      role: combo box
+    do: click
+  - step_type: action
+    action: keyboard_press
+    key: Down
+  - step_type: action
+    action: keyboard_press
+    key: Escape
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      accessible_id: FontType
+      role: combo box
+- id: suite_快速安装_002_s1
+  name: 安装字体_点击安装按钮
+  description: ''
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      accessible_id: ActionBtn
+      role: push button
+    do: click
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      accessible_id: ActionBtn
+      role: push button
+teardown:
+- action: session_stop

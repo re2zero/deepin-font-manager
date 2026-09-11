@@ -1,0 +1,104 @@
+version: '1.0'
+cases:
+- id: suite_删除对话框_001_s1
+  name: 勾选应用全部_点击删除按钮
+  module: 删除对话框
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    items:
+    - 删除
+    x: 200
+    y: 300
+  - step_type: action
+    action: element_action
+    selector:
+      accessible_id: ApplyAllCkb
+      role: check box
+    do: click
+  - step_type: action
+    action: element_action
+    selector:
+      accessible_id: ConfirmBtn
+      role: push button
+    do: click
+  - step_type: assert
+    action: assert_element
+    selector:
+      accessible_id: messageTitle
+      role: label
+- id: suite_删除对话框_002_s1
+  name: 取消删除_点击取消按钮
+  module: 删除对话框
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      accessible_id: CancelBtn
+      role: push button
+    do: click
+  - step_type: assert
+    action: assert_window_count
+    expected: 1
+- id: suite_删除对话框_003_s1
+  name: 关闭对话框_点击关闭按钮
+  module: 删除对话框
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      accessible_id: CloseButton
+      role: push button
+    do: click
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-font-manager
+- id: suite_右键菜单_001_s1
+  name: 右键字体列表_弹出右键菜单
+  module: 右键菜单
+  steps:
+  - step_type: action
+    action: mouse_right_click
+    x: 200
+    y: 300
+  - step_type: assert
+    action: assert_element
+    selector:
+      accessible_id: RightMenu
+      role: menu
+- id: suite_快速安装_001_s1
+  name: 展开字体类型_下拉框操作
+  module: 快速安装
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      accessible_id: FontType
+      role: combo box
+    do: click
+  - step_type: action
+    action: keyboard_press
+    key: Down
+  - step_type: action
+    action: keyboard_press
+    key: Escape
+  - step_type: assert
+    action: assert_element
+    selector:
+      accessible_id: FontType
+      role: combo box
+- id: suite_快速安装_002_s1
+  name: 安装字体_点击安装按钮
+  module: 快速安装
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      accessible_id: ActionBtn
+      role: push button
+    do: click
+  - step_type: assert
+    action: assert_element
+    selector:
+      accessible_id: ActionBtn
+      role: push button

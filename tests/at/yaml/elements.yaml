@@ -1,0 +1,17 @@
+elements:
+  ApplyAllCkb:
+    accessible_id: ApplyAllCkb
+  ConfirmBtn:
+    accessible_id: ConfirmBtn
+  messageTitle:
+    accessible_id: messageTitle
+  CancelBtn:
+    accessible_id: CancelBtn
+  CloseButton:
+    accessible_id: CloseButton
+  RightMenu:
+    accessible_id: RightMenu
+  FontType:
+    accessible_id: FontType
+  ActionBtn:
+    accessible_id: ActionBtn

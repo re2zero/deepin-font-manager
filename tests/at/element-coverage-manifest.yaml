@@ -1,0 +1,46 @@
+version: '1.0'
+source: at-case-authoring:element-map.yaml
+scan_total: 8
+elements:
+  CloseButton:
+    role: push button
+    ui_name: 关闭按钮
+    desc: 对话框关闭按钮
+    locator: accessible_id
+  RightMenu:
+    role: menu
+    ui_name: 右键菜单
+    desc: 字体列表右键菜单
+    locator: accessible_id
+  messageTitle:
+    role: label
+    ui_name: 消息标题
+    desc: 删除对话框消息标题
+    locator: accessible_id
+  ApplyAllCkb:
+    role: check box
+    ui_name: 应用全部复选框
+    desc: 删除对话框应用全部复选框
+    locator: accessible_id
+  CancelBtn:
+    role: push button
+    ui_name: 取消按钮
+    desc: 删除对话框取消按钮
+    locator: accessible_id
+  ConfirmBtn:
+    role: push button
+    ui_name: 确认按钮
+    desc: 删除对话框确认按钮
+    locator: accessible_id
+  FontType:
+    role: combo box
+    ui_name: 字体类型下拉框
+    desc: 快速安装窗口字体类型下拉框
+    locator: accessible_id
+  ActionBtn:
+    role: push button
+    ui_name: 安装按钮
+    desc: 快速安装窗口安装按钮
+    locator: accessible_id
+transient_items: []
+unresolved: []

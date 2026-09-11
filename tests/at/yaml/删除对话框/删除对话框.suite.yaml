@@ -1,0 +1,66 @@
+name: 删除对话框_suite
+app: deepin-font-manager
+module: 删除对话框
+setup:
+- action: session_start
+  command: deepin-font-manager
+  wait: 3.0
+suites:
+- id: suite_删除对话框_001_s1
+  name: 勾选应用全部_点击删除按钮
+  description: ''
+  steps:
+  - step_type: action
+    action: dtk_context_menu
+    items:
+    - 删除
+    x: 200
+    y: 300
+  - step_type: action
+    action: element_action
+    selector:
+      accessible_id: ApplyAllCkb
+      role: check box
+    do: click
+  - step_type: action
+    action: element_action
+    selector:
+      accessible_id: ConfirmBtn
+      role: push button
+    do: click
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      accessible_id: messageTitle
+      role: label
+- id: suite_删除对话框_002_s1
+  name: 取消删除_点击取消按钮
+  description: ''
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      accessible_id: CancelBtn
+      role: push button
+    do: click
+  assert_steps:
+  - step_type: assert
+    action: assert_window_count
+    expected: 1
+- id: suite_删除对话框_003_s1
+  name: 关闭对话框_点击关闭按钮
+  description: ''
+  steps:
+  - step_type: action
+    action: element_action
+    selector:
+      accessible_id: CloseButton
+      role: push button
+    do: click
+  assert_steps:
+  - step_type: assert
+    action: assert_process_running
+    app: deepin-font-manager
+teardown:
+- action: session_stop

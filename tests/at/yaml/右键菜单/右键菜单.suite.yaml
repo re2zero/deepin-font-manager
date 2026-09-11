@@ -1,0 +1,24 @@
+name: 右键菜单_suite
+app: deepin-font-manager
+module: 右键菜单
+setup:
+- action: session_start
+  command: deepin-font-manager
+  wait: 3.0
+suites:
+- id: suite_右键菜单_001_s1
+  name: 右键字体列表_弹出右键菜单
+  description: ''
+  steps:
+  - step_type: action
+    action: mouse_right_click
+    x: 200
+    y: 300
+  assert_steps:
+  - step_type: assert
+    action: assert_element
+    selector:
+      accessible_id: RightMenu
+      role: menu
+teardown:
+- action: session_stop
